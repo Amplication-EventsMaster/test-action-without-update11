@@ -23,7 +23,6 @@ import { CustomerFindManyArgs } from "./CustomerFindManyArgs";
 import { CustomerWhereUniqueInput } from "./CustomerWhereUniqueInput";
 import { EventFindManyArgs } from "../../event/base/EventFindManyArgs";
 import { Event } from "../../event/base/Event";
-import { EventWhereUniqueInput } from "../../event/base/EventWhereUniqueInput";
 
 export class CustomerControllerBase {
   constructor(protected readonly service: CustomerService) {}
@@ -137,56 +136,5 @@ export class CustomerControllerBase {
       );
     }
     return results;
-  }
-
-  @common.Post("/:id/events")
-  async connectEvents(
-    @common.Param() params: CustomerWhereUniqueInput,
-    @common.Body() body: EventWhereUniqueInput[]
-  ): Promise<void> {
-    const data = {
-      events: {
-        connect: body,
-      },
-    };
-    await this.service.updateCustomer({
-      where: params,
-      data,
-      select: { id: true },
-    });
-  }
-
-  @common.Patch("/:id/events")
-  async updateEvents(
-    @common.Param() params: CustomerWhereUniqueInput,
-    @common.Body() body: EventWhereUniqueInput[]
-  ): Promise<void> {
-    const data = {
-      events: {
-        set: body,
-      },
-    };
-    await this.service.updateCustomer({
-      where: params,
-      data,
-      select: { id: true },
-    });
-  }
-
-  @common.Delete("/:id/events")
-  async disconnectEvents(
-    @common.Param() params: CustomerWhereUniqueInput,
-    @common.Body() body: EventWhereUniqueInput[]
-  ): Promise<void> {
-    const data = {
-      events: {
-        disconnect: body,
-      },
-    };
-    await this.service.updateCustomer({
-      where: params,
-      data,
-      select: { id: true },
-    });
   }
 }
